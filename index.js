@@ -4,7 +4,7 @@ const app = express();
 
 // app.use()
 app.use(express.static('public'));
-app.use(morgan('common'));
+app.use(morgan('dev'));
 
 const bestMovies = [
   {
