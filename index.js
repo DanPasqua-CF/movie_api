@@ -61,19 +61,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-// app.get('/test-error', (req, res, next) => {
-//   try {
-//     throw new Error('Error handling works');
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send('This should not be happening!');
-// });
-
 app.get('*', (req, res) => {
   res.status(404).send('Error 404: Page not found');
 });
