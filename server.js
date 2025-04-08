@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const uuid = require('uuid');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -11,6 +12,7 @@ const PORT = 8080;
 // app.use()
 app.use(express.static('public'));
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 
 let message;
 
@@ -234,29 +236,27 @@ const genres = [
 const users = [
   {
     id: 1,
-    name: "Tara Parker",
-    email: "tara.parker@cf.exercise",
+    isActive: true,
+    name: "James Wilson",
     favoriteMovies: [
-      "Goodwill Hunting"
-    ],
-    isActive: true
+      "Out Cold",
+      "Elf"
+    ]
   },
   {
     id: 2,
-    name: "James Baker",
-    email: "james.baker@cf.exercise",
+    isActive: true,
+    name: "Gerald Smith",
     favoriteMovies: [
-      "Step Brothers",
-      "The Town"
-    ],
-    isActive: false
+      "Superbad"
+    ]
   }
-]
+];
 
 /*  CREATE  */
 // Add a new user
 app.post('/users', (req, res) => {
-  let newUser = req.body;
+  const newUser = req.body;
 
   if (!newUser.name) {
     res.status(400).send('Missing user name');
@@ -264,29 +264,40 @@ app.post('/users', (req, res) => {
   else {
     newUser.id = uuid.v4();
     users.push(newUser);
-    res.status(201).send(newUser);
+
+    let today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth() + 1;
+    let year = today.getFullYear();
+
+    if (day < 10) {
+      day = `0${day}`;
+    }
+
+    if (month < 10) {
+      month = `0${month}`;
+    }
+
+    const timestamp = `${month}-${day}-${year}`;
+
+    res.status(201).send({
+      message: 'User successfully created',
+      createdOn: timestamp
+    });
   }
 });
 
 // Add a new movie to a user's list
 app.post('/users/:id/favoriteMovies', (req, res) => {
-  let newMovie = req.body();
-  let user = users.find((user) => {
-    user.id === id;
+  let newMovie = req.body.favoriteMovies;
+
+  // TODO: Wait for further instruction
+  // user.favoriteMovies.push(newMovie);
+  res.status(201).send({
+    message: `Movie added`
   });
-
-  if (!user) {
-    message = 'User not found';
-    res.status(404).send(message);
-  }
-  else {
-    message = `${newMovie} added to ${username}'s list`;
-
-    // TODO: Wait for further instruction
-    // user.favoriteMovies.push(newMovie);
-    res.status(201).send(message);
-  }
 });
+
 
 /*  READ  */
 // Get a list of all movies
@@ -303,13 +314,27 @@ app.get('/movies/:title', (req, res) => {
 
 // Get a director's information by name
 app.get('/movies/directors/:name', (req, res) => {
-  const { directorName } = req.params;
-  const director = movies.find(movie => movie.directors.name === directorName);
+  const directorName = req.params.name;
+
+  // Find the directors from each movie
+  const director = movies
+    .map(movie => movie.directors)
+    // Flatten the array of directors
+    .flat()
+    .find(d => d.name === directorName);
 
   if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send('no such director')
+    // Return the director's information if found
+    res.json({
+      name: director.name,
+      biography: director.biography,
+      birthYear: director.birthYear,
+      deathYear: director.deathYear
+    });
+  }
+  else {
+    // Return a 404 error if the director is not found
+    res.status(404).json({ error: "Director not found" });
   }
 });
 
@@ -337,76 +362,52 @@ app.get('/genres/:name', (req, res) => {
   }));
 });
 
-
-
-
-
 /*  UPDATE  */
-app.put('/users:id', (req, res) => {
-  const updatedUser = req.body;
-  let user = users.find((user) => {
-    return user.id === req.params.id;
+// Update user's name by ID
+app.put('/users/:id/name', (req, res) => {
+  const updatedUser = req.body.name;
+
+  res.status(201).send({
+    message: 'Name updated'
   });
+});
 
-  if (!user) {
-    message = 'User not found'
-    res.status(400).send(message);
-  }
-  else {
-    message = `New name: ${updatedUser}`;
+// Update user's isActive status
+app.put('/users/:id/isActive', (req, res) => {
+  const updatedUser = req.body.isActive;
 
-    user.name = updatedUser;
-    res.status(201).send(message);
-  }
+  res.status(201).send({
+    message: 'Status updated'
+  });
 });
 
 
 /*  DELETE  */
 // Remove a movie from a user's list
-app.delete('/movies/:id/:favoriteMovies', (req, res) => {
-  let user = users.find((user) => {
-    user.id === req.params.id;
-  });
+app.delete('/users/:id/favoriteMovies', (req, res) => {
+  let deletedMovie = req.body.favoriteMovies;
 
-  if (!user) {
-    res.status(400).send(`User ${req.params.name} was not found`);
-  }
-  else {
-    user.favoriteMovies[req.params.id] = parseInt(req.params.favoriteMovies)
-
-    // TODO: Wait for further instruction
-    res.status(204).send(`User ${req.params.name} removed ${req.params.favoriteMovies.title}`);
-  }
+  res.status(200).send({
+    message: 'Movie deleted'
+  })
 });
 
 // Remove a user by ID
 app.delete('/users/:id', (req, res) => {
-  let user = users.find((user) => {
-    return user.id === req.params.id;
+  let user = req.body.name;
+
+  res.status(201).send({
+    message: 'User deleted'
   });
-
-  if (!user) {
-    message = 'User not found';
-    res.status(400).send(message);
-  }
-  else {
-    users.filter((obj) => {
-      return obj.id !== req.params.id;
-    });
-
-    res.status(201).send(`User ${req.params.id} was removed`)
-  }
 });
 
 /*  ERROR HANDLING  */
-const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use(bodyParser.json());
 app.use(methodOverride());
 
 app.get('*', (req, res) => {
