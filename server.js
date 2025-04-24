@@ -1,20 +1,25 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Models = require('./models;')
 const uuid = require('uuid');
 const bodyParser = require('body-parser');
 
+const Movies = Models.Movie;
+const Users = Models.User;
+
+// app.use()
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.use(morgan('dev'));
 
 /* Environment */
 const host = '127.0.0.1';
 const PORT = 8080;
 
-// app.use()
-app.use(express.static('public'));
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-
-let message;
+mongoose.connect(`mongodb://${host}:27017/myFlix`, { userNewUrlParser: true, useUnifiedTopology: true });
 
 const movies = [
   {
@@ -26,19 +31,19 @@ const movies = [
     directors: [
       {
         name: "Jim Abrahams",
-        biography: "Writer, producer and director James S. 'Jim' Abrahams was born in Shorewood, Wisconsin.",
+        biography: "Jim Abrahams was born in Shorewood, Wisconsin.",
         birthYear: 1944,
         deathYear: 2024
       },
       {
         name: "David Zucker",
-        biography: "David Zucker was born on October 16, 1947 in Milwaukee, Wisconsin, and has established himself among Hollywood's most successful filmmakers.",
+        biography: "David Zucker was born on October 16, 1947 in Milwaukee, Wisconsin.",
         birthYear: 1947,
         deathYear: null
       },
       {
         name: "Jerry Zucker",
-        biography: "Jerry Zucker is a writer and producer, and was born on March 11, 1950 in Milwaukee, Wisconsin",
+        biography: "Jerry Zucker was born in Milwaukee, Wisconsin",
         birthYear: 1950,
         deathYear: null
       }
@@ -55,7 +60,7 @@ const movies = [
     directors: [
       {
         name: "Martin Scorsese",
-        biography: "Martin Charles Scorsese was born on November 17, 1942 in Queens, New York City.",
+        biography: "Martin Charles Scorsese was born in Queens, New York City.",
         birthYear: 1942,
         deathYear: null
       }
@@ -72,7 +77,7 @@ const movies = [
     directors: [
       {
         name: "Gus Van Sant",
-        biography: "Gus Green Van Sant Jr. is an American filmmaker, painter, screenwriter, photographer and musician from Louisville, Kentucky.",
+        biography: "Gus Green Van Sant Jr. is an American filmmaker from Louisville, Kentucky.",
         birthYear: 1952,
         deathYear: null
       }
@@ -89,7 +94,7 @@ const movies = [
     directors: [
       {
         name: "David Yates",
-        biography: "David Yates was born on October 8, 1963 in St. Helens, Merseyside, England, UK.",
+        biography: "David Yates was born in St. Helens, Merseyside, England, UK.",
         birthYear: 1963,
         deathYear: null
       }
@@ -123,7 +128,7 @@ const movies = [
     directors: [
       {
         name: "Frank Darabont",
-        biography: "Frank Darabont was born in a refugee camp in 1959 in Montbeliard, France, the son of Hungarian parents who had fled Budapest during the failed 1956 Hungarian revolution.",
+        biography: "Frank Darabont was born in a refugee camp in 1959 in Montbeliard, France.",
         birthYear: 1959,
         deathYear: null
       }
@@ -141,7 +146,7 @@ const movies = [
     directors: [
       {
         name: "Jonathan Demme",
-        biography: "Jonathan Demme was born on February 22, 1944 in Baldwin, Long Island, New York, USA.",
+        biography: "Jonathan Demme was born in Long Island, New York.",
         birthYear: 1944,
         deathYear: 2017
       }
@@ -157,7 +162,7 @@ const movies = [
     description: "Two aimless middle-aged losers still living at home are forced against their will to become roommates when their parents marry.",
     directors: {
       name: "Adam McKay",
-      biography: "Adam McKay (born April 17, 1968) is an American screenwriter, director, comedian, and actor.",
+      biography: "Adam McKay is an American screenwriter, director, comedian, and actor.",
       birthYear: 1968,
       deathYear: null
     },
@@ -174,7 +179,7 @@ const movies = [
     directors: [
       {
         name: "David Mickey Evans",
-        biography: "David Mickey Evans was born on October 20, 1962 in Wilkes Barre, Pennsylvania, USA.",
+        biography: "David Mickey Evans was born in Wilkes Barre, Pennsylvania.",
         birthYear: 1962,
         deathYear: null
       }
@@ -192,7 +197,7 @@ const movies = [
     directors: [
       {
         name: "Ben Affleck",
-        biography: "Benjamin Géza Affleck-Boldt was born on August 15, 1972 in Berkeley, California and raised in Cambridge, Massachusetts.",
+        biography: "Benjamin Affleck was born in Berkeley, California.",
         birthYear: 1972,
         deathYear: null
       }
@@ -235,56 +240,95 @@ const genres = [
 
 const users = [
   {
-    id: 1,
     isActive: true,
     name: "James Wilson",
+    birthday: new Date("1980-01-10"),
     favoriteMovies: [
-      "Out Cold",
-      "Elf"
+      ObjectId('6808480087e7720b65f220aa'),
+      ObjectId('6808480087e7720b65f220ab'),
+      ObjectId('6808480087e7720b65f220b1'),
+      ObjectId('6808480087e7720b65f220b2')
     ]
   },
   {
-    id: 2,
     isActive: true,
     name: "Gerald Smith",
+    birthday: new Date("1987-05-10"),
     favoriteMovies: [
-      "Superbad"
+      ObjectId('6808480087e7720b65f220ac'),
+      ObjectId('6808480087e7720b65f220b0')
+    ]
+  },
+  {
+    isActive: true,
+    name: "Donald Phillips",
+    birthday: new Date("1990-11-19"),
+    favoriteMovies: [
+      ObjectId('6808480087e7720b65f220ad'),
+      ObjectId('6808480087e7720b65f220ae'),
+      ObjectId('6808480087e7720b65f220b2'),
+      ObjectId('6808480087e7720b65f220b3')
+    ]
+  },
+  {
+    isActive: true,
+    name: "Jan Smith",
+    birthday: new Date("1997-12-10"),
+    favoriteMovies: [
+      ObjectId('6808480087e7720b65f220ad'),
+      ObjectId('6808480087e7720b65f220ae'),
+      ObjectId('6808480087e7720b65f220b3')
+    ]
+  },
+  {
+    isActive: true,
+    name: "John Wilson",
+    birthday: new Date("2004-01-19"),
+    favoriteMovies: [
+      ObjectId('6808480087e7720b65f220ad'),
+      ObjectId('6808480087e7720b65f220ae'),
+      ObjectId('6808480087e7720b65f220af'),
+      ObjectId('6808480087e7720b65f220b0')
     ]
   }
 ];
 
 /*  CREATE  */
-// Add a new user
-app.post('/users', (req, res) => {
-  const newUser = req.body;
 
-  if (!newUser.name) {
-    res.status(400).send('Missing user name');
-  }
-  else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-
-    let today = new Date();
-    let day = today.getDate();
-    let month = today.getMonth() + 1;
-    let year = today.getFullYear();
-
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    if (month < 10) {
-      month = `0${month}`;
-    }
-
-    const timestamp = `${month}-${day}-${year}`;
-
-    res.status(201).send({
-      message: 'User successfully created',
-      createdOn: timestamp
-    });
-  }
+/** Add a new user
+ *
+ *  JSON FORMAT:
+ *    ID: Integer,
+ *    username: String,
+ *    password: String,
+ *    email: String,
+ *    birthday: Date
+ */
+app.post('/users', async (req, res) => {
+  await Users.findOne({ name: req.body.name })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(`${req.body.name} already exists`);
+      }
+      else {
+        Users
+          .create({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            birthday: req.body.birthday
+          })
+          .then((user) => { res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send(`Error: ${error}`);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send(`Error: ${error}`);
+    })
 });
 
 // Add a new movie to a user's list
@@ -339,7 +383,7 @@ app.get('/movies/directors/:name', (req, res) => {
 });
 
 // Get a list of users
-app.get('/users/', (req, res) => {
+app.get('/users', (req, res) => {
   res.json(users);
 });
 
