@@ -251,20 +251,21 @@ const genres = [
  *    birthday: Date
  */
 app.post('/users', async (req, res) => {
-  await Users.findOne({ name: req.body.name })
+  await Users.findOne({ name: req.body.username })
     .then((user) => {
       if (user) {
         return res.status(400).send(`${req.body.name} already exists`);
       }
       else {
-        Users
-          .create({
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email,
-            birthday: req.body.birthday
+        Users.create({
+          username: req.body.username,
+          password: req.body.password,
+          email: req.body.email,
+          birthday: req.body.birthday
+        })
+          .then((user) => {
+            res.status(201).json(user)
           })
-          .then((user) => { res.status(201).json(user) })
           .catch((error) => {
             console.error(error);
             res.status(500).send(`Error: ${error}`);
@@ -274,7 +275,7 @@ app.post('/users', async (req, res) => {
     .catch((error) => {
       console.error(error);
       res.status(500).send(`Error: ${error}`);
-    })
+    });
 });
 
 // Add a new movie to a user's list
@@ -291,8 +292,14 @@ app.post('/users/:id/favoriteMovies', (req, res) => {
 
 /*  READ  */
 // Get a list of all movies
-app.get('/movies', (req, res) => {
-  res.json(movies);
+app.get('/movies', async (req, res) => {
+  await Movies.find().then((movies) => {
+    res.status(201).json(movies);
+  })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
 });
 
 // Get a movie by title
@@ -337,19 +344,19 @@ app.get('/users', async (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send(`Error: ${err}`);
-    })
+    });
 });
 
 // Get a user's information by name
 app.get('/users/:name', async (req, res) => {
-  await Users.findOne({ username: req.params.name })
+  await Users.findOne({ username: req.params.username })
     .then((user) => {
       res.status(201).json(user);
     })
     .catch((err) => {
       console.error(err);
       res.status(500).send(`Error: ${err}`);
-    })
+    });
 });
 
 // Get genres
