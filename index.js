@@ -122,16 +122,7 @@ app.get('/movies', async (req, res) => {
 });
 
 // Get a movie by title
-app.get('/movies/:title', async (req, res) => {
-  await Movies.findOne({ title: req.params.title })
-    .then((movie) => {
-      res.json(movie)
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send(`Error: ${err}`);
-    })
-});
+
 
 // Get a director's information by name
 app.get('/movies/directors/:name', (req, res) => {
@@ -253,14 +244,6 @@ app.delete('/users/:username', async (req, res) => {
   })
 });
 
-// Remove a user by ID
-app.delete('/users/:id', (req, res) => {
-  let user = req.body.name;
-
-  res.status(201).send({
-    message: 'User deleted'
-  });
-});
 
 /*  ERROR HANDLING  */
 const methodOverride = require('method-override');
