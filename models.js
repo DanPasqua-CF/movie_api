@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 /*  Movie schema  */
 let movieSchema = mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
   genre: [String],
+  description: { type: String, required: true },
   directors: [{
     name: String,
     biography: String,

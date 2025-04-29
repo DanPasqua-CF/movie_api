@@ -238,60 +238,6 @@ const genres = [
   }
 ];
 
-const users = [
-  {
-    isActive: true,
-    name: "James Wilson",
-    birthday: new Date("1980-01-10"),
-    favoriteMovies: [
-      ObjectId('6808480087e7720b65f220aa'),
-      ObjectId('6808480087e7720b65f220ab'),
-      ObjectId('6808480087e7720b65f220b1'),
-      ObjectId('6808480087e7720b65f220b2')
-    ]
-  },
-  {
-    isActive: true,
-    name: "Gerald Smith",
-    birthday: new Date("1987-05-10"),
-    favoriteMovies: [
-      ObjectId('6808480087e7720b65f220ac'),
-      ObjectId('6808480087e7720b65f220b0')
-    ]
-  },
-  {
-    isActive: true,
-    name: "Donald Phillips",
-    birthday: new Date("1990-11-19"),
-    favoriteMovies: [
-      ObjectId('6808480087e7720b65f220ad'),
-      ObjectId('6808480087e7720b65f220ae'),
-      ObjectId('6808480087e7720b65f220b2'),
-      ObjectId('6808480087e7720b65f220b3')
-    ]
-  },
-  {
-    isActive: true,
-    name: "Jan Smith",
-    birthday: new Date("1997-12-10"),
-    favoriteMovies: [
-      ObjectId('6808480087e7720b65f220ad'),
-      ObjectId('6808480087e7720b65f220ae'),
-      ObjectId('6808480087e7720b65f220b3')
-    ]
-  },
-  {
-    isActive: true,
-    name: "John Wilson",
-    birthday: new Date("2004-01-19"),
-    favoriteMovies: [
-      ObjectId('6808480087e7720b65f220ad'),
-      ObjectId('6808480087e7720b65f220ae'),
-      ObjectId('6808480087e7720b65f220af'),
-      ObjectId('6808480087e7720b65f220b0')
-    ]
-  }
-];
 
 /*  CREATE  */
 
@@ -383,15 +329,27 @@ app.get('/movies/directors/:name', (req, res) => {
 });
 
 // Get a list of users
-app.get('/users', (req, res) => {
-  res.json(users);
+app.get('/users', async (req, res) => {
+  await Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    })
 });
 
 // Get a user's information by name
-app.get('/users/:name', (req, res) => {
-  res.json(users.find((user) => {
-    return user.name === req.params.name;
-  }));
+app.get('/users/:name', async (req, res) => {
+  await Users.findOne({ username: req.params.name })
+    .then((user) => {
+      res.status(201).json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    })
 });
 
 // Get genres
