@@ -119,15 +119,7 @@ app.get('/movies/directors/:name', async (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(400).send(`Error: ${err}`);
-    })
-  // const directorName = req.params.name;
-
-  // // Find the directors from each movie
-  // const director = movies
-  //   .map(movie => movie.directors)
-  //   // Flatten the array of directors
-  //   .flat()
-  //   .find(d => d.name === directorName);
+    });
 });
 
 // Get a list of users
@@ -225,7 +217,7 @@ app.delete('/users/:username', async (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send(`Error: ${err}`);
-    })
+    });
 });
 
 // Remove a movie from a user's list
@@ -242,7 +234,7 @@ app.delete('/users/:username/favoriteMovies/:title', async (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send(`Error: ${err}`);
-    })
+    });
 });
 
 
