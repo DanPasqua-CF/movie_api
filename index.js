@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 /* Models */
 const Movies = Models.Movie;
@@ -11,8 +11,8 @@ const Genres = Models.Genre;
 
 // app.use()
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(morgan('dev'));
 
@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 const host = '127.0.0.1';
 const PORT = 8080;
 
-mongoose.connect(`mongodb://${host}:27017/myFlix`, { userNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true });
 
 
 /*  CREATE  */
@@ -249,9 +249,9 @@ app.delete('/users/:username/favoriteMovies/:title', async (req, res) => {
 /*  ERROR HANDLING  */
 const methodOverride = require('method-override');
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
 
 app.use(methodOverride());
 
