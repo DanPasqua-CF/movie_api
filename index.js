@@ -92,7 +92,7 @@ app.post('/users', async (req, res) => {
 });
 
 // Add a new movie to a user's list
-app.post('/users/:username/favoriteMovies/:movieId', async (req, res) => {
+app.post('/users/:username/favoriteMovies/:title', async (req, res) => {
   await Users.findOneAndUpdate({ username: req.params.username }, {
     $push: {
       favoriteMovies: req.params.movieId
@@ -110,6 +110,7 @@ app.post('/users/:username/favoriteMovies/:movieId', async (req, res) => {
 
 
 /*  READ  */
+
 // Get a list of all movies
 app.get('/movies', async (req, res) => {
   await Movies.find().then((movies) => {
@@ -122,7 +123,16 @@ app.get('/movies', async (req, res) => {
 });
 
 // Get a movie by title
-
+app.get('/movies/:title', async (req, res) => {
+  await Movies.findOne({ title: req.params.title })
+    .then((movie) => {
+      res.status(201).json(movie);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
+});
 
 // Get a director's information by name
 app.get('/movies/directors/:name', (req, res) => {
@@ -186,6 +196,7 @@ app.get('/genres/:name', (req, res) => {
   }));
 });
 
+
 /*  UPDATE  */
 
 /** Update a user
@@ -236,12 +247,20 @@ app.delete('/users/:username', async (req, res) => {
 });
 
 // Remove a movie from a user's list
-app.delete('/users/:username', async (req, res) => {
-  let deletedMovie = req.body.favoriteMovies;
-
-  res.status(200).send({
-    message: 'Movie deleted'
-  })
+app.delete('/users/:username/favoriteMovies/:title', async (req, res) => {
+  await Movies.findOneAndRemove({ title: req.params.title })
+    .then((movie) => {
+      if (!movie) {
+        res.status(400).send(`${req.params.title} not found`);
+      }
+      else {
+        res.status(200).send(`${req.params.title} was deleted`);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    })
 });
 
 
@@ -258,6 +277,6 @@ app.get('*', (req, res) => {
   res.status(404).send('Page not found');
 });
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log(`Server running at http://${host}:${PORT}`);
 });
