@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 /*  Movie schema  */
 let movieSchema = mongoose.Schema({
   title: { type: String, required: true },
-  genre: [String],
+  genre: [{ type: mongoose.Schema.Types.ObjectId, ref: Genre }],
   description: { type: String, required: true },
   directors: [{
     name: String,
@@ -24,8 +24,16 @@ let userSchema = mongoose.Schema({
   favoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: Movie }]
 });
 
+/*  Genre schema  */
+let genreSchema = mongoose.Schema({
+  name: { type: String, required: true },
+  description: { type: String }
+})
+
 let Movie = mongoose.model('movies', movieSchema);
 let User = mongoose.model('users', userSchema);
+let Genre = mongoose.model('genres', genreSchema);
 
 module.exports.Movie = Movie;
 module.exports.User = User;
+module.exports.Genre = Genre;

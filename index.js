@@ -1,12 +1,13 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Models = require('./models;')
-const uuid = require('uuid');
+const Models = require('./models');
 const bodyParser = require('body-parser');
 
+/* Models */
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genres = Models.Genre;
 
 // app.use()
 const app = express();
@@ -21,36 +22,6 @@ const PORT = 8080;
 
 mongoose.connect(`mongodb://${host}:27017/myFlix`, { userNewUrlParser: true, useUnifiedTopology: true });
 
-const genres = [
-  {
-    name: "action",
-    description: "In an action story, the protagonist usually takes a risky turn, which leads to desperate situations, including explosions, fight scenes, daring escapes, etc."
-  },
-  {
-    name: "comedy",
-    description: "Comedy is a story that tells about a series of funny, or comical events, intended to make the audience laugh."
-  },
-  {
-    name: "crime",
-    description: "A crime story is often about a crime that is being committed or was committed, but can also be an account of a criminal's life."
-  },
-  {
-    name: "drama",
-    description: "A dramatic story intended to be more serious than humorous in tone, focusing on in-depth development of realistic characters who must deal with realistic emotional struggles."
-  },
-  {
-    name: "fantasy",
-    description: "A fantasy story is about magic or supernatural forces, as opposed to technology as seen in science fiction."
-  },
-  {
-    name: "horror",
-    description: "A horror story is told to deliberately scare or frighten the audience, through suspense, violence or shock."
-  },
-  {
-    name: "science fiction",
-    description: "Science fiction stories use scientific understanding to explain the universe that it takes place in."
-  }
-];
 
 /*  CREATE  */
 
@@ -105,7 +76,7 @@ app.post('/users/:username/favoriteMovies/:title', async (req, res) => {
     .catch((err) => {
       console.error(err);
       res.status(500).send(`Error: ${err}`);
-    })
+    });
 });
 
 
@@ -135,29 +106,28 @@ app.get('/movies/:title', async (req, res) => {
 });
 
 // Get a director's information by name
-app.get('/movies/directors/:name', (req, res) => {
-  const directorName = req.params.name;
+app.get('/movies/directors/:name', async (req, res) => {
+  await Movies.findOne({ director: req.body.name })
+    .then((director) => {
+      res.status(201).json({
+        name: director.name,
+        biography: director.biography,
+        birthYear: director.birthYear,
+        deathYear: director.deathYear
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(400).send(`Error: ${err}`);
+    })
+  // const directorName = req.params.name;
 
-  // Find the directors from each movie
-  const director = movies
-    .map(movie => movie.directors)
-    // Flatten the array of directors
-    .flat()
-    .find(d => d.name === directorName);
-
-  if (director) {
-    // Return the director's information if found
-    res.json({
-      name: director.name,
-      biography: director.biography,
-      birthYear: director.birthYear,
-      deathYear: director.deathYear
-    });
-  }
-  else {
-    // Return a 404 error if the director is not found
-    res.status(404).json({ error: "Director not found" });
-  }
+  // // Find the directors from each movie
+  // const director = movies
+  //   .map(movie => movie.directors)
+  //   // Flatten the array of directors
+  //   .flat()
+  //   .find(d => d.name === directorName);
 });
 
 // Get a list of users
@@ -173,7 +143,7 @@ app.get('/users', async (req, res) => {
 });
 
 // Get a user's information by name
-app.get('/users/:name', async (req, res) => {
+app.get('/users/:username', async (req, res) => {
   await Users.findOne({ username: req.params.username })
     .then((user) => {
       res.status(201).json(user);
@@ -185,15 +155,27 @@ app.get('/users/:name', async (req, res) => {
 });
 
 // Get genres
-app.get('/genres/', (req, res) => {
-  res.json(genres);
+app.get('/genres/', async (req, res) => {
+  await Genres.find()
+    .then((genre) => {
+      res.status(201).json(genre);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
 });
 
 // Get genre information by name
-app.get('/genres/:name', (req, res) => {
-  res.json(genres.find((genre) => {
-    return genre.name === req.params.name;
-  }));
+app.get('/genres/:name', async (req, res) => {
+  await Genres.findOne({ name: req.params.name })
+    .then((genre) => {
+      res.status(201).json(genre);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
 });
 
 
