@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MyFlix API Endpoints</title>
+  <link rel="stylesheet" href="./css/styles.production.css">
+</head>
+
+<body>
+  <h1>MyFlix API Endpoints</h1>
+
+  <!--CREATE endpoints-->
+  <h2>POST</h2>
+  <h3><pre><code>/users</code></pre></h3>
+  <p>This endpoint adds a user.</p>
+<div>
+  <h3>Sample request</h3>
+  <pre><code>{
+    "username": "jsmith",
+    "password": "Test123!",
+    "email": "jsmith@example.com",
+    "birthday": "01/01/1980"
+}</code></pre>
+  </div>
+<div>
+  <h3>Sample response</h3>
+  <pre><code>{
+    "username": "jsmith",
+    "password": "Test123!",
+    "email": "jsmith@example.com",
+    "birthday": "1980-01-01T05:00:00.000Z",
+    "favoriteMovies": [],
+    "_id": "681808bcb83c1805942467d6",
+    "__v": 0
+}</code></pre>
+  </div>
+
+  <h3><pre><code>/users/:username/favoriteMovies/:movieId</code></pre></h3>
+    <p>This endpoint adds a movie to a user's favorite movies list based on their username and movie ID.</p>
+  <div>
+    <h3>Sample response</h3>
+    <pre><code>{
+    "_id": "6811528de808c2cfed50e162",
+    "username": "jsmith-updated",
+    "password": "Test456!",
+    "email": "jsmith-updated@example.com",
+    "birthday": "1980-01-01T00:00:00.000Z"
+}</code></pre>
+  </div>
+
+
+  <!--READ endpoints-->
+  <h2>GET</h2>
+  <h3><pre><code>/users</code></pre></h3>
+  <p>This endpoint returns a list of all available users.</p>
+<div>
+  <h3>Example response</h3>
+  <pre><code>{
+  "_id": "681188d1a83f8523a5d612cd",
+  "username": "jsmith",
+  "password": "Test123!",
+  "email": "jsmith@example.com",
+  "birthday": "1980-01-01T00:00:00.000Z"
+}</code></pre>
+  </div>
+
+<h3><pre><code>/users/:username</code></pre></h3>
+  <p>This endpoint returns a user's information based on their username.</p>
+<div>
+  <h3>Sample response</h3>
+  <pre><code>{
+  "_id": "681808bcb83c1805942467d6",
+  "username": "jsmith",
+  "password": "Test123!",
+  "email": "jsmith@example.com",
+  "birthday": "1980-01-01T05:00:00.000Z",
+  "favoriteMovies": [
+    "68118347ef7f92677a2935d1",
+    "6811842bef7f92677a2935d4",
+    "68118388ef7f92677a2935d2"
+  ],
+  "__v": 0
+}</code></pre>
+  </div>
+
+<h3><pre><code>/movies</code></pre></h3>
+<p>This endpoint returns a list of all available users.</p>
+<div>
+<h3>Example response</h3>
+<pre><code>[
+  {
+    "_id": "68118347ef7f92677a2935d1",
+    "title": "The Town",
+    "description": "A proficient group of thieves rob a bank and hold the manager hostage. Things get complicated when one of the crew members falls in love with her.",
+    "directors": [
+      {
+        "_id": "68180a81b83c1805942467db",
+        "name": "Ben Affleck",
+        "biography": "Benjamin Affleck was born in Berkeley, California.",
+        "birthYear": "1970-01-01T00:00:01.972Z",
+        "deathYear": null
+      }
+    ],
+    "imageUrl": "",
+    "featured": true
+  }
+]</code></pre>
+  </div>
+
+<h3><pre><code>/movies/:title</code></pre></h3>
+<p>This endpoint returns a movie's information based on the title.</p>
+<div>
+<h3>Sample response</h3>
+<pre><code>{
+  "_id": "68118388ef7f92677a2935d2",
+  "title": "The Sandlot",
+  "description": "In the summer of 1962, a new kid in town is taken under the wing of a young baseball prodigy and his rowdy team, resulting in many adventures, including the recovery of a baseball signed by Babe Ruth.",
+  "directors": [
+    {
+      "_id": "68180a81b83c1805942467dc",
+      "name": "David Mickey Evans",
+      "biography": "David Mickey Evans was born in Wilkes Barre, Pennsylvania.",
+      "birthYear": "1970-01-01T00:00:01.962Z",
+      "deathYear": null
+    }
+  ],
+  "imageUrl": "",
+  "featured": true
+}</code></pre>
+  </div>
+
+<h3><pre><code>/movies/directors/:name</code></pre></h3>
+<p>This endpoint returns a director's information based on their name.</p>
+<div>
+<h3>Sample response</h3>
+<pre><code>{
+  "name": "Adam McKay",
+  "biography": "Adam McKay is an American screenwriter, director, comedian, and actor.",
+  "birthYear": "1970-01-01T00:00:01.968Z",
+  "deathYear": null
+}</code></pre>
+  </div>
+
+<h3><pre><code>/genres</code></pre></h3>
+  <p>This endpoint returns a list of all available genres.</p>
+<div>
+  <h3>Example response</h3>
+  <pre><code>[
+  {
+      "_id": "68117e31ef7f92677a2935ca",
+      "name": "action",
+      "description": "In an action story, the protagonist usually takes a risky turn, which leads to desperate situations, including explosions, fight scenes, daring escapes, etc."
+  }
+]</code></pre>
+  </div>
+
+<h3><pre><code>/genres/:name</code></pre></h3>
+  <p>This endpoint returns a user's information based on the genre name.</p>
+<div>
+  <h3>Sample response</h3>
+  <pre><code>{
+  "_id": "68117e31ef7f92677a2935ca",
+  "name": "action",
+  "description": "In an action story, the protagonist usually takes a risky turn, which leads to desperate situations, including explosions, fight scenes, daring escapes, etc."
+}</code></pre>
+  </div>
+
+
+  <!--UPDATE endpoints-->
+  <h2>UPDATE</h2>
+  <h3><pre><code>/users/:username</code></pre></h3>
+    <p>This endpoint updates a user's information based on their username and the information provided in the request body.</p>
+  <div>
+    <h4>Sample request</h4>
+    <pre><code>{
+    "username": "jsmith-updated",
+    "password": "Test456!",
+    "email": "jsmith-updated@example.com",
+    "birthday": "1980-01-01"
+}</code></pre>
+  </div>
+  <div>
+    <h4>Sample response</h4>
+    <pre><code>{
+    "_id": "6811528de808c2cfed50e162",
+    "username": "jsmith-updated",
+    "password": "Test456!",
+    "email": "jsmith-updated@example.com",
+    "birthday": "1980-01-01T00:00:00.000Z"
+}</code></pre>
+  </div>
+
+
+  <!--DELETE endpoints-->
+  <h2>DELETE</h2>
+  <h3><pre><code>/users/:username</code></pre></h3>
+    <p>This endpoint deletes a user based on their username.</p>
+  <div>
+    <h4>Sample response</h4>
+    <pre><code>jsmith was deleted</code></pre>
+  </div>
+  
+  <h3><pre><code>/users/:username/favoriteMovies/:movieId</code></pre></h3>
+  <p>This endpoint deletes a movies from a user's favorite movies list based on their username and movie ID. The response includes an updated list of the user's favorite movies.</p>
+<div>
+  <h4>Sample response</h4>
+  <pre><code>{
+    "message": "Movie 6811842bef7f92677a2935d4 removed",
+    "user": {
+      "_id": "681808bcb83c1805942467d6",
+      "username": "jsmith",
+      "password": "Test123!",
+      "email": "jsmith@example.com",
+      "birthday": "1980-01-01T05:00:00.000Z",
+      "favoriteMovies": [
+          "68118347ef7f92677a2935d1",
+          "68118388ef7f92677a2935d2"
+      ],
+      "__v": 0
+    }
+}</code></pre>
+  </div>
+
+</body>
+
+</html>
