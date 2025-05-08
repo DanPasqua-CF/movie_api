@@ -269,7 +269,7 @@ app.delete('/users/:username/favoriteMovies/:movieId', async (req, res) => {
 });
 
 
-/*  ERROR HANDLING  */
+/*  Error handling  */
 const methodOverride = require('method-override');
 
 app.use(bodyParser.urlencoded({
