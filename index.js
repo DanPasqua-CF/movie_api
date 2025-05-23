@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models');
 const bodyParser = require('body-parser');
+const { check, validationResult } = require('express-validator');
 
 /* Models */
 const Movies = Models.Movie;
@@ -16,13 +17,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(morgan('dev'));
 
+const cors = require('cors');
+app.use(cors());
+
 let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
 /* Environment */
 const host = '127.0.0.1';
-const PORT = 8080;
 
 mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true });
 
@@ -37,7 +40,21 @@ mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true })
  *    email: String,
  *    birthday: Date
  */
-app.post('/users', async (req, res) => {
+app.post('/users', 
+  [
+    check('username', 'Username is required').isLength({ min: 5 }),
+    check('username', 'Only alphanumeric values allowed').isAlphanumeric(),
+    check('password', 'Password is required').not().isEmpty(),
+    check('email', 'Invalid email address').isEmail()
+  ], async (req, res) => {
+    let errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+  let hashedPassword = Users.hashPassword(req.body.password);
+
   await Users.findOne({ name: req.body.username })
     .then((user) => {
       if (user) {
@@ -46,7 +63,7 @@ app.post('/users', async (req, res) => {
       else {
         Users.create({
           username: req.body.username,
-          password: req.body.password,
+          password: hashedPassword,
           email: req.body.email,
           birthday: req.body.birthday
         })
@@ -203,9 +220,21 @@ app.get('/genres/:name', passport.authenticate('jwt', { session: false }), async
  *    email: String,
  *    birthday: Date
  */
-app.put('/users/:username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:username', passport.authenticate('jwt', { session: false }), 
+[
+  check('username', 'Username is required').isLength({ min: 5 }),
+  check('username', 'Only alphanumeric values allowed').isAlphanumeric(),
+  check('password', 'Password is required').not().isEmpty(),
+  check('email', 'Invalid email address').isEmail()
+], async (req, res) => {
+  let errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
   if (req.user.username !== req.params.username) {
-    return res.status(400).send('Permission denied')
+    return res.status(400).send('Permission denied');
   }
   
   await Users.findOneAndUpdate({ username: req.params.username }, {
@@ -290,6 +319,7 @@ app.get('*', (req, res) => {
   res.status(404).send('Page not found');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://${host}:${PORT}`);
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Listening on port ${port}`);
 });
