@@ -26,7 +26,6 @@ require('./passport');
 
 /* Environment */
 const host = '127.0.0.1';
-const PORT = 8080;
 
 mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true });
 
@@ -320,6 +319,7 @@ app.get('*', (req, res) => {
   res.status(404).send('Page not found');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://${host}:${PORT}`);
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Listening on port ${port}`);
 });
