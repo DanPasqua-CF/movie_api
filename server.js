@@ -27,7 +27,7 @@ require('./passport');
 /* Environment */
 const host = '127.0.0.1';
 
-mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true });
+mongoose.connect(`mongodb://${host}:27017/myFlix`, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 /*  CREATE  */
