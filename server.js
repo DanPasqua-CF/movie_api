@@ -24,8 +24,10 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
+const mongoUri = process.env.MONGODB_URI;
+
 /* Connection */
-mongoose.connect('mongodb+srv://dlpasqua:n3wP%7C%7Ctr%40%21T@myflix.bt1zzkf.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlix', {
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
