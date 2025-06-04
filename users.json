@@ -1,8 +1,102 @@
-{"_id":{"$oid":"6811528de808c2cfed50e162"},"username":"gsmith","password":"Test123!","email":"gsmith@example.com","birthday":{"$date":"1987-05-10T00:00:00Z"},"favoriteMovies":["ObjectId('6808480087e7720b65f220ac')","ObjectId('6808480087e7720b65f220b0')"]}
-{"_id":{"$oid":"681152bce808c2cfed50e163"},"username":"dphillips","password":"Test123!","email":"dphillips@example.com","birthday":{"$date":"1990-11-19T00:00:00Z"},"favoriteMovies":["ObjectId('6808480087e7720b65f220ad')","ObjectId('6808480087e7720b65f220ae')","ObjectId('6808480087e7720b65f220b2')","ObjectId('6808480087e7720b65f220b3')","ObjectId('6808480087e7720b65f220ac')"]}
-{"_id":{"$oid":"681152e1e808c2cfed50e164"},"username":"jsmith","password":"Test123!","email":"jsmith@example.com","birthday":{"$date":"1997-12-10T00:00:00Z"},"favoriteMovies":["ObjectId('6808480087e7720b65f220ad')","ObjectId('6808480087e7720b65f220ae')","ObjectId('6808480087e7720b65f220b3')"]}
-{"_id":{"$oid":"68115301e808c2cfed50e165"},"username":"jwilson","password":"Test123!","email":"jwilson@example.com","birthday":{"$date":"2004-01-19T00:00:00Z"},"favoriteMovies":["ObjectId('6808480087e7720b65f220ad')","ObjectId('6808480087e7720b65f220ae')","ObjectId('6808480087e7720b65f220af')","ObjectId('6808480087e7720b65f220b0')"]}
-{"_id":{"$oid":"681188c0a83f8523a5d612cc"},"username":"jwilson","password":"Test123!","email":"jwilson@example.com","birthday":{"$date":"2004-01-19T00:00:00Z"},"favoriteMovies":["ObjectId('68118539ef7f92677a2935d7')","ObjectId('68118525ef7f92677a2935d6')","ObjectId('6811845def7f92677a2935d5')","ObjectId('6811842bef7f92677a2935d4')"]}
-{"_id":{"$oid":"681188d1a83f8523a5d612cd"},"username":"jsmith","password":"Test123!","email":"jsmith@example.com","birthday":{"$date":"1997-12-10T00:00:00Z"},"favoriteMovies":["ObjectId('68118539ef7f92677a2935d7')","ObjectId('68118525ef7f92677a2935d6')","ObjectId('68118347ef7f92677a2935d1')"]}
-{"_id":{"$oid":"681188e1a83f8523a5d612ce"},"username":"dphillips","password":"Test123!","email":"dphillips@example.com","birthday":{"$date":"1990-11-19T00:00:00Z"},"favoriteMovies":["ObjectId('68118539ef7f92677a2935d7')","ObjectId('68118525ef7f92677a2935d6')","ObjectId('68118388ef7f92677a2935d2')","ObjectId('68118347ef7f92677a2935d1')","ObjectId('68117e31ef7f92677a2935cd')"]}
-{"_id":{"$oid":"681188efa83f8523a5d612cf"},"username":"gsmith","password":"Test123!","email":"gsmith@example.com","birthday":{"$date":"1987-05-10T00:00:00Z"},"favoriteMovies":["ObjectId('68117e31ef7f92677a2935cd')","ObjectId('6811842bef7f92677a2935d4')"]}
+[
+  {
+    "_id": "6811528de808c2cfed50e162",
+    "username": "gsmith",
+    "password": "Test123!",
+    "email": "gsmith@example.com",
+    "birthday": "1987-05-10T00:00:00Z",
+    "favoriteMovies": [
+      "6808480087e7720b65f220ac",
+      "6808480087e7720b65f220b0"
+    ]
+  },
+  {
+    "_id": "681152bce808c2cfed50e163",
+    "username": "dphillips",
+    "password": "Test123!",
+    "email": "dphillips@example.com",
+    "birthday": "1990-11-19T00:00:00Z",
+    "favoriteMovies": [
+      "6808480087e7720b65f220ad",
+      "6808480087e7720b65f220ae",
+      "6808480087e7720b65f220b2",
+      "6808480087e7720b65f220b3",
+      "6808480087e7720b65f220ac"
+    ]
+  },
+  {
+    "_id": "681152e1e808c2cfed50e164",
+    "username": "jsmith",
+    "password": "Test123!",
+    "email": "jsmith@example.com",
+    "birthday": "1997-12-10T00:00:00Z",
+    "favoriteMovies": [
+      "6808480087e7720b65f220ad",
+      "6808480087e7720b65f220ae",
+      "6808480087e7720b65f220b3"
+    ]
+  },
+  {
+    "_id": "68115301e808c2cfed50e165",
+    "username": "jwilson",
+    "password": "Test123!",
+    "email": "jwilson@example.com",
+    "birthday": "2004-01-19T00:00:00Z",
+    "favoriteMovies": [
+      "6808480087e7720b65f220ad",
+      "6808480087e7720b65f220ae",
+      "6808480087e7720b65f220af",
+      "6808480087e7720b65f220b0"
+    ]
+  },
+  {
+    "_id": "681188c0a83f8523a5d612cc",
+    "username": "jwilson",
+    "password": "Test123!",
+    "email": "jwilson@example.com",
+    "birthday": "2004-01-19T00:00:00Z",
+    "favoriteMovies": [
+      "68118539ef7f92677a2935d7",
+      "68118525ef7f92677a2935d6",
+      "6811845def7f92677a2935d5",
+      "6811842bef7f92677a2935d4"
+    ]
+  },
+  {
+    "_id": "681188d1a83f8523a5d612cd",
+    "username": "jsmith",
+    "password": "Test123!",
+    "email": "jsmith@example.com",
+    "birthday": "1997-12-10T00:00:00Z",
+    "favoriteMovies": [
+      "68118539ef7f92677a2935d7",
+      "68118525ef7f92677a2935d6",
+      "68118347ef7f92677a2935d1"
+    ]
+  },
+  {
+    "_id": "681188e1a83f8523a5d612ce",
+    "username": "dphillips",
+    "password": "Test123!",
+    "email": "dphillips@example.com",
+    "birthday": "1990-11-19T00:00:00Z",
+    "favoriteMovies": [
+      "68118539ef7f92677a2935d7",
+      "68118525ef7f92677a2935d6",
+      "68118388ef7f92677a2935d2",
+      "68118347ef7f92677a2935d1",
+      "68117e31ef7f92677a2935cd"
+    ]
+  },
+  {
+    "_id": "681188efa83f8523a5d612cf",
+    "username": "gsmith",
+    "password": "Test123!",
+    "email": "gsmith@example.com",
+    "birthday": "1987-05-10T00:00:00Z",
+    "favoriteMovies": [
+      "68117e31ef7f92677a2935cd",
+      "6811842bef7f92677a2935d4"
+    ]
+  }
+]
