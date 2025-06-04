@@ -10,12 +10,10 @@ let Users = Models.User,
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'Username',
-      passwordField: 'Password'
+      usernameField: 'username',
+      passwordField: 'password'
     },
     async (username, password, callback) => {
-      console.log(`${username} ${password}`);
-
       await Users.findOne({ username: username})
       .then((user) => {
         if (!user) {
@@ -45,11 +43,16 @@ passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'your_jwt_secret'
 }, async (jwtPayload, callback) => {
-  return await Users.findById(jwtPayload._id)
-    .then((user) => {
+  try {
+    const user = await Users.findById(jwtPayload._id);
+    if (user) {
       return callback(null, user);
-    })
-    .catch((error) => {
-      return callback(error);
-    });
+    } 
+    else {
+      return callback(null, false);
+    }
+  } 
+  catch (error) {
+    return callback(error);
+  }
 }));
