@@ -1,7 +1,0 @@
-{"_id":{"$oid":"68117e31ef7f92677a2935ca"},"name":"action","description":"In an action story, the protagonist usually takes a risky turn, which leads to desperate situations, including explosions, fight scenes, daring escapes, etc."}
-{"_id":{"$oid":"68117e31ef7f92677a2935cb"},"name":"comedy","description":"Comedy is a story that tells about a series of funny, or comical events, intended to make the audience laugh."}
-{"_id":{"$oid":"68117e31ef7f92677a2935cc"},"name":"crime","description":"A crime story is often about a crime that is being committed or was committed, but can also be an account of criminal life."}
-{"_id":{"$oid":"68117e31ef7f92677a2935cd"},"name":"drama","description":"A dramatic story intended to be more serious than humorous in tone, focusing on in-depth development of realistic characters who must deal with realistic emotional struggles."}
-{"_id":{"$oid":"68117e31ef7f92677a2935ce"},"name":"fantasy","description":"A fantasy story is about magic or supernatural forces, as opposed to technology as seen in science fiction."}
-{"_id":{"$oid":"68117e31ef7f92677a2935cf"},"name":"horror","description":"A horror story is told to deliberately scare or frighten the audience, through suspense, violence or shock."}
-{"_id":{"$oid":"68117e31ef7f92677a2935d0"},"name":"science fiction","description":"Science fiction stories use scientific understanding to explain the universe that it takes place in."}

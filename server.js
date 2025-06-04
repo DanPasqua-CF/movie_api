@@ -24,11 +24,17 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-/* Environment */
-const host = '127.0.0.1';
+/* Connection */
+mongoose.connect('mongodb+srv://dlpasqua:n3wP%7C%7Ctr%40%21T@myflix.bt1zzkf.mongodb.net/myFlixDB?retryWrites=true&w=majority&appName=myFlix', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('✅ MongoDB connection successful'))
+.catch(err => console.error('❌ MongoDB connection unsuccessful', err));
 
-mongoose.connect(`mongodb://${host}:27017/myFlix`, { useUnifiedTopology: true });
-
+app.get('/', (req, res) => {
+  res.send('Welcome to MyFlix');
+});
 
 /*  CREATE  */
 
@@ -320,6 +326,6 @@ app.get('*', (req, res) => {
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Listening on port ${port}`);
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
