@@ -37,7 +37,7 @@ passport.use(
         console.log('Login successful');
         return callback(null, user);
       }
-      catch {
+      catch (error) {
         console.log(error);
         return callback(error);
       }
