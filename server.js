@@ -112,7 +112,7 @@ app.post('/users/:username/favoriteMovies/:movieId', passport.authenticate('jwt'
 /*  READ  */
 
 // Get a list of all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', async (req, res) => {
   await Movies.find().then((movies) => {
     res.status(200).json(movies);
   })
