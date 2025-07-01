@@ -9,18 +9,24 @@ const directorSchema = new mongoose.Schema({
   deathYear: Date
 });
 
+/*  Genre schema  */
+const genreSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  description: String
+});
+
 /*  Movie schema  */
-let movieSchema = mongoose.Schema({
+const movieSchema = new mongoose.Schema({
   title: { type: String, required: true },
   genre: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
   description: { type: String, required: true },
-  directors: [ directorSchema ],
+  directors: [directorSchema],
   imageUrl: String,
   featured: Boolean
 });
 
 /*  User schema  */
-let userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
@@ -36,16 +42,9 @@ userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-/*  Genre schema  */
-let genreSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true }
-});
+/* Model registration (fixed names) */
+const Movie = mongoose.model('Movie', movieSchema);
+const User = mongoose.model('User', userSchema);
+const Genre = mongoose.model('Genre', genreSchema);
 
-let Movie = mongoose.model('movies', movieSchema);
-let User = mongoose.model('users', userSchema);
-let Genre = mongoose.model('genres', genreSchema);
-
-module.exports.Movie = Movie;
-module.exports.User = User;
-module.exports.Genre = Genre;
+module.exports = { Movie, User, Genre };
