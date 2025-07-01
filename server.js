@@ -113,13 +113,16 @@ app.post('/users/:username/favoriteMovies/:movieId', passport.authenticate('jwt'
 
 // Get a list of all movies
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  await Movies.find().then((movies) => {
+  try {
+    const movies = await Movies.find()
+      .populate('genre')
+      .populate('directors');
+
     res.status(200).json(movies);
-  })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send(`Error: ${err}`);
-    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error: ${err}`);
+  }
 });
 
 // Get a movie by title

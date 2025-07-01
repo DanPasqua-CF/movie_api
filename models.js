@@ -34,13 +34,13 @@ userSchema.statics.hashPassword = (password) => {
 
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
-}
+};
 
 /*  Genre schema  */
 let genreSchema = mongoose.Schema({
   name: { type: String, required: true },
-  description: { type: String }
-})
+  description: { type: String, required: true }
+});
 
 let Movie = mongoose.model('movies', movieSchema);
 let User = mongoose.model('users', userSchema);
