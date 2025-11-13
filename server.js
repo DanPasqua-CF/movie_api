@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require('cors');
+app.use(cors());
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -17,9 +19,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(morgan('dev'));
-
-const cors = require('cors');
-app.use(cors());
 
 let auth = require('./auth')(app);
 const passport = require('passport');
