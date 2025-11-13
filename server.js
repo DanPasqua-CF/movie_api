@@ -1,6 +1,4 @@
 const express = require('express');
-const cors = require('cors');
-app.use(cors());
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -15,6 +13,9 @@ const Genres = Models.Genre;
 
 // app.use()
 const app = express();
+const cors = require('cors');
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -63,10 +64,10 @@ app.post('/users',
 
   let hashedPassword = Users.hashPassword(req.body.password);
 
-  await Users.findOne({ name: req.body.username })
+  await Users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(`${req.body.name} already exists`);
+        return res.status(400).send(`${req.body.username} already exists`);
       }
       else {
         Users.create({
